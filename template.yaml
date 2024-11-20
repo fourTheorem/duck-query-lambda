@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: duckdb-lambda-cpp
+
+Resources:
+  DuckFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ./
+      MemorySize: 10240
+      Timeout: 900
+      Handler: bootstrap
+      Runtime: provided.al2023
+      Architectures:
+        - arm64
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+                - s3:ListBucket
+              Resource: "arn:aws:s3:::*"
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource: "arn:aws:s3:::*/output/*"
