@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 set(CMAKE_CXX_STANDARD 17)
-project(duckdb_lambda_cpp LANGUAGES CXX)
+project(duck-query-lambda LANGUAGES CXX)
 
 find_package(aws-lambda-runtime)
 find_package(Threads REQUIRED)

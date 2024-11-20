@@ -1,4 +1,4 @@
-PROJECT_NAME = duckdb_lambda_cpp
+PROJECT_NAME = duck-query-lambda
 OUTPUT_DIR = output
 EXTENSIONS = httpfs
 DUCKDB_VERSION = 1.1.3
@@ -31,11 +31,12 @@ download-extensions:
 		curl -sfL "http://extensions.duckdb.org/v$(DUCKDB_VERSION)/linux_$(ARCH)/$(ext).duckdb_extension.gz" | gunzip - > "$(ARTIFACTS_DIR)/duckdb_extensions/v$(DUCKDB_VERSION)/linux_$(ARCH)/$(ext).duckdb_extension"; \
 	)
 
-# build-DuckFunction:
-# 	@echo Building for amd64
-# 	$(MAKE) build-bootstrap ARCH=amd64
-
-build-DuckFunction:
+build-LambdaLayerArm64:
 	@echo Building for Arm
 	$(MAKE) build-bootstrap ARCH=arm64
 	$(MAKE) download-extensions ARCH=arm64
+
+build-LambdaLayerX8664:
+	@echo Building for x86_64
+	$(MAKE) build-bootstrap ARCH=x86_64
+	$(MAKE) download-extensions ARCH=x86_64

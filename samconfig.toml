@@ -6,3 +6,6 @@ s3_prefix = "duckc"
 region = "eu-west-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
+
+[default.build.parameters]
+build_in_source = true

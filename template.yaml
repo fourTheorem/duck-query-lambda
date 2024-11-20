@@ -1,28 +1,51 @@
 AWSTemplateFormatVersion: '2010-09-09'
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: duck-query-lambda
+    Description: "Lambda runtime for fast and simple DuckDB querying"
+    Author: fourTheorem
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: <LAYER_CONTENT_PATH>/LICENSE
+    ReadmeUrl: <LAYER_CONTENT_PATH>/README.md
+    Labels: ['layer','lambda','runtime','duckdb']
+    HomePageUrl: https://github.com/fourTheorem/duck-query-lambda
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/fourTheorem/duck-query-lambda
+
 Transform: AWS::Serverless-2016-10-31
-Description: duckdb-lambda-cpp
+Description: duck-query-lambda
 
 Resources:
-  DuckFunction:
-    Type: AWS::Serverless::Function
+  LambdaLayerArm64:
+    Type: AWS::Serverless::LayerVersion
     Metadata:
       BuildMethod: makefile
     Properties:
-      CodeUri: ./
-      MemorySize: 10240
-      Timeout: 900
-      Handler: bootstrap
-      Runtime: provided.al2023
-      Architectures:
+      ContentUri: ./
+      CompatibleArchitectures:
         - arm64
-      Policies:
-        - Statement:
-            - Effect: Allow
-              Action:
-                - s3:GetObject
-                - s3:ListBucket
-              Resource: "arn:aws:s3:::*"
-            - Effect: Allow
-              Action:
-                - s3:PutObject
-              Resource: "arn:aws:s3:::*/output/*"
+      CompatibleRuntimes:
+        - provided
+      LicenseInfo: Apache-2.0
+      RetentionPolicy: Retain
+
+  LambdaLayerX8664:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      ContentUri: ./
+      CompatibleArchitectures:
+        - x86_64
+      CompatibleRuntimes:
+        - provided
+      LicenseInfo: Apache-2.0
+      RetentionPolicy: Retain
+  
+Outputs:
+  LayerVersionArn:
+    Description: ARN for the published layer version
+    Value: !Ref LambdaLayer
+    Export:
+      Name: !Sub 'LayerVersionArn-${Architecture}-${AWS::StackName}'

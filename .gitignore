@@ -33,3 +33,4 @@
 
 build/
 .aws-sam/
+output/
