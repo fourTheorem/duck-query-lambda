@@ -10,10 +10,14 @@ permissions:
 name: build-on-pr
 
 jobs:
-  release-please:
+  sam_build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
       - name: SAM Build
         run: sam build

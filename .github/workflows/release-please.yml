@@ -23,15 +23,18 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
+        if: ${{ steps.release.outputs.release_created }}
         with:
           role-to-assume: ${{ secrets.SAR_DEPLOYMENT_IAM_ROLE }}
           role-session-name: github-action-sar-deploy-session
           aws-region: ${{ env.AWS_REGION }}
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
         if: ${{ steps.release.outputs.release_created }}
+        with:
+          platforms: arm64
       - name: SAR publish
+        if: ${{ steps.release.outputs.release_created }}
         run: |
           sam build
           sam package --output-template-file packaged.yaml --s3-bucket ${SAR_BUCKET_NAME}
