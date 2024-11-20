@@ -1,3 +1,4 @@
+// Custom AWS Lambda Runtime for DuckDB queries 🦆🐑
 #include <aws/core/utils/HashingUtils.h>
 #include <aws/core/utils/json/JsonSerializer.h>
 #include <aws/core/utils/memory/stl/SimpleStringStream.h>
@@ -10,9 +11,12 @@
 using namespace duckdb;
 using namespace std;
 using namespace aws::lambda_runtime;
-// using namespace Aws::Utils::Logging;
 using namespace Aws::Utils::Json;
 
+/**
+ * Base64 encoding utility to allow returning binary data from the Lambda function.
+ * This allows the query result to be saved to a temporary file (JSON, CSV, Parquet) and returned as a base64 encoded string.
+ */
 std::string b64encode(const std::string &filename)
 {
   ifstream fileStream(filename);
@@ -38,6 +42,9 @@ std::string b64encode(const std::string &filename)
   return Aws::Utils::HashingUtils::Base64Encode(bb);
 }
 
+/**
+ * Lambda event handler
+ */
 static invocation_response query_handler(invocation_request const &req, Connection &con)
 {
   JsonValue event(req.payload);
@@ -63,6 +70,10 @@ static invocation_response query_handler(invocation_request const &req, Connecti
 
   if (view.KeyExists("outputFile"))
   {
+    // The caller can specify a query with "COPY .. TO '<outputFile>'" so DuckDB
+    // saves the result to a file. If they also specify this filename in the event JSON's `outputFile`
+    // property, it will be base64 encoded and returned as the result. This temporary file is also deleted before
+    // the function completes.
     auto outputFile = view.GetString("outputFile");
     auto encodedOutput = b64encode(outputFile);
     // Delete the file after encoding
@@ -79,6 +90,8 @@ int main()
 {
   cout << "Running Lambda Handler " << __DATE__ << "," << __TIME__ << endl;
 
+  // We use a single connection for all queries. This may be good for performance in some cases, but
+  // is probably not ideal in the spirit of single execution isolation.
   DuckDB db(nullptr);
   Connection con(db);
   auto result = con.Query("SET home_directory='/tmp'; SET extension_directory='/opt/duckdb_extensions';");
