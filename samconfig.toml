@@ -9,3 +9,11 @@ image_repositories = []
 
 [default.build.parameters]
 build_in_source = true
+
+[ore.deploy.parameters]
+stack_name = "duck-query-lambda"
+resolve_s3 = true
+s3_prefix = "duck-query-lambda"
+region = "eu-west-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

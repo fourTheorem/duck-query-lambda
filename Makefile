@@ -12,13 +12,13 @@ docker_build:
 binary: docker_build
 	mkdir -p $(OUTPUT_DIR)/$(ARCH)
 	docker run -v /tmp:/$(OUTPUT_DIR) $(PROJECT_NAME)_$(ARCH) sh -c \
-		'cp /usr/local/lib/libduckdb* . && strip libduckdb*.so $(PROJECT_NAME)* && tar cf - libduckdb*.so $(PROJECT_NAME)* | base64' \
+		'mkdir -p lib && cp /usr/local/lib64/libduckdb*.so lib/ && strip lib/libduckdb*.so $(PROJECT_NAME)* && tar cf - lib $(PROJECT_NAME)* | base64' \
 		> $(OUTPUT_DIR)/artifacts_$(ARCH).b64
 	cat $(OUTPUT_DIR)/artifacts_$(ARCH).b64 | base64 -d | tar xf - -C $(OUTPUT_DIR)/$(ARCH)
 
 build-bootstrap: binary
 	@echo Creating bootstrap artifacts in $(ARTIFACTS_DIR)
-	cp $(OUTPUT_DIR)/$(ARCH)/lib* $(ARTIFACTS_DIR)
+	cp -r $(OUTPUT_DIR)/$(ARCH)/lib $(ARTIFACTS_DIR)
 	cp $(OUTPUT_DIR)/$(ARCH)/$(PROJECT_NAME) $(ARTIFACTS_DIR)/bootstrap
 	cp $(OUTPUT_DIR)/$(ARCH)/$(PROJECT_NAME)_test $(ARTIFACTS_DIR)/test_main
 	chmod +x $(ARTIFACTS_DIR)/bootstrap

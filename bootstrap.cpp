@@ -81,7 +81,7 @@ int main()
 
   DuckDB db(nullptr);
   Connection con(db);
-  auto result = con.Query("SET home_directory='/tmp'; SET extension_directory='/var/task/duckdb_extensions';");
+  auto result = con.Query("SET home_directory='/tmp'; SET extension_directory='/opt/duckdb_extensions';");
   if (result->HasError())
   {
     cerr << "Failed to set home directory: " << result->GetError() << endl;

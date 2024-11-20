@@ -1,0 +1,38 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          release-type: simple
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: aws-actions/setup-sam@v2
+        if: ${{ steps.release.outputs.release_created }}
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.SAR_DEPLOYMENT_IAM_ROLE }}
+          role-session-name: github-action-sar-deploy-session
+          aws-region: ${{ env.AWS_REGION }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
+      - name: SAR publish
+        run: |
+          sam build
+          sam package --output-template-file packaged.yaml --s3-bucket ${SAR_BUCKET_NAME}
+          sam publish --template packaged.yaml --region ${AWS_REGION}

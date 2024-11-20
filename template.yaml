@@ -6,18 +6,18 @@ Metadata:
     Description: "Lambda runtime for fast and simple DuckDB querying"
     Author: fourTheorem
     SpdxLicenseId: Apache-2.0
-    LicenseUrl: <LAYER_CONTENT_PATH>/LICENSE
-    ReadmeUrl: <LAYER_CONTENT_PATH>/README.md
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
     Labels: ['layer','lambda','runtime','duckdb']
     HomePageUrl: https://github.com/fourTheorem/duck-query-lambda
-    SemanticVersion: 0.0.1
+    SemanticVersion: 0.0.0
     SourceCodeUrl: https://github.com/fourTheorem/duck-query-lambda
 
 Transform: AWS::Serverless-2016-10-31
 Description: duck-query-lambda
 
 Resources:
-  LambdaLayerArm64:
+  DuckQueryLambdaLayerArm64:
     Type: AWS::Serverless::LayerVersion
     Metadata:
       BuildMethod: makefile
@@ -30,22 +30,23 @@ Resources:
       LicenseInfo: Apache-2.0
       RetentionPolicy: Retain
 
-  LambdaLayerX8664:
-    Type: AWS::Serverless::LayerVersion
-    Metadata:
-      BuildMethod: makefile
-    Properties:
-      ContentUri: ./
-      CompatibleArchitectures:
-        - x86_64
-      CompatibleRuntimes:
-        - provided
-      LicenseInfo: Apache-2.0
-      RetentionPolicy: Retain
+  # Disabling this for now until we resolve the libduckdb link issues with C++ 11
+  # DuckQueryLambdaLayerX8664:
+  #   Type: AWS::Serverless::LayerVersion
+  #   Metadata:
+  #     BuildMethod: makefile
+  #   Properties:
+  #     ContentUri: ./
+  #     CompatibleArchitectures:
+  #       - x86_64
+  #     CompatibleRuntimes:
+  #       - provided
+  #     LicenseInfo: Apache-2.0
+  #     RetentionPolicy: Retain
   
 Outputs:
-  LayerVersionArn:
+  DuckQueryLayerVersionArn:
     Description: ARN for the published layer version
-    Value: !Ref LambdaLayer
+    Value: !Ref DuckQueryLambdaLayerArm64
     Export:
-      Name: !Sub 'LayerVersionArn-${Architecture}-${AWS::StackName}'
+      Name: !Sub 'DuckQueryLayerVersionArn-Arm64-${AWS::StackName}'
