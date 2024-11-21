@@ -9,6 +9,7 @@ env:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 name: release-please
 
