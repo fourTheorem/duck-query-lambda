@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.5...v0.0.6) (2024-11-21)
+
+
+### Bug Fixes
+
+* **ci:** add id_token to release workflow ([bc308cd](https://github.com/fourTheorem/duck-query-lambda/commit/bc308cdb3c0d7e1b5d1171b74dd052b548e9cd44))
+
 ## [0.0.5](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.4...v0.0.5) (2024-11-21)
 
 
