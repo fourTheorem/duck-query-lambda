@@ -7,7 +7,7 @@ DUCKDB_VERSION = 1.1.3
 
 docker_build:
 	@echo Building Docker Image for $(ARCH)
-	docker build --platform=linux/$(ARCH) --build-arg DUCKDB_VERSION=$(DUCKDB_VERSION) -t $(PROJECT_NAME)_$(ARCH) .
+	docker build --progress=plain --platform=linux/$(ARCH) --build-arg DUCKDB_VERSION=$(DUCKDB_VERSION) -t $(PROJECT_NAME)_$(ARCH) .
 
 binary: docker_build
 	@echo Creating binary artifacts in $(OUTPUT_DIR)/$(ARCH)

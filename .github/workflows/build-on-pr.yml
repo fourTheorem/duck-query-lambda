@@ -15,5 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
+      - name: Cache SAM  outputs
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-sam
+          path: |
+            ~/.aws-sam/cache
       - name: SAM Build
-        run: sam build
+        run: sam build --cached
