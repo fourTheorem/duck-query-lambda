@@ -1,0 +1,25 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: build-on-pr
+jobs:
+  sam_build:
+    runs-on:
+      - codebuild-gha-runners-arm64-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/setup-sam@v2
+      - name: Cache SAM  outputs
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-sam
+          path: |
+            ~/.aws-sam/cache
+      - name: SAM Build
+        run: sam build --cached
