@@ -14,7 +14,8 @@ jobs:
     runs-on:
       - codebuild-gha-runners-arm64-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - id: release
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
       - uses: actions/checkout@v4
