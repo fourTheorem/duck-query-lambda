@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.4...v0.0.5) (2024-11-21)
+
+
+### Bug Fixes
+
+* **ci:** add AWS_REGION to envs ([f0ef2cb](https://github.com/fourTheorem/duck-query-lambda/commit/f0ef2cb2b0af5f20dbd8c7d5644b9fe0190810b2))
+
 ## [0.0.4](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.3...v0.0.4) (2024-11-21)
 
 
