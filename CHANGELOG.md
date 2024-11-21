@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.2...v0.0.3) (2024-11-21)
+
+
+### Miscellaneous Chores
+
+* release 0.0.3 ([3069af3](https://github.com/fourTheorem/duck-query-lambda/commit/3069af33cdcc5f6ec533992453878ea5c33449f0))
+
 ## [0.0.2](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.1...v0.0.2) (2024-11-21)
 
 
