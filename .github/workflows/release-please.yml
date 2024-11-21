@@ -26,8 +26,6 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: aws-actions/setup-sam@v2
         if: ${{ steps.release.outputs.release_created }}
-      - name: print envs
-        run: env
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         if: ${{ steps.release.outputs.release_created }}
