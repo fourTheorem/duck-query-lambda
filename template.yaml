@@ -23,6 +23,7 @@ Resources:
       BuildMethod: makefile
     Properties:
       ContentUri: ./
+      BuildArchitecture: arm64
       CompatibleArchitectures:
         - arm64
       CompatibleRuntimes:
@@ -37,6 +38,7 @@ Resources:
   #     BuildMethod: makefile
   #   Properties:
   #     ContentUri: ./
+  #     BuildArchitecture: x86_64
   #     CompatibleArchitectures:
   #       - x86_64
   #     CompatibleRuntimes:

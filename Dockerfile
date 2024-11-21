@@ -14,6 +14,7 @@ RUN cd aws-sdk-cpp && mkdir build && cd build && cmake .. -DBUILD_SHARED_LIBS=OF
 RUN cd aws-sdk-cpp/build && cmake --build . --config Release && cmake --install . --config Release
 
 ARG DUCKDB_VERSION=1.1.3
+
 # Download, for example, libduckdb-linux-aarch64.zip or libduckdb-linux-amd64.zip
 RUN curl -L https://github.com/duckdb/duckdb/releases/download/v${DUCKDB_VERSION}/libduckdb-linux-$(uname -m | sed 's/x86_/amd/').zip > /src/libduckdb.zip
 
