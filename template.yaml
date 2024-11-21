@@ -21,9 +21,9 @@ Resources:
     Type: AWS::Serverless::LayerVersion
     Metadata:
       BuildMethod: makefile
+      BuildArchitecture: arm64
     Properties:
       ContentUri: ./
-      BuildArchitecture: arm64
       CompatibleArchitectures:
         - arm64
       CompatibleRuntimes:
@@ -36,9 +36,9 @@ Resources:
   #   Type: AWS::Serverless::LayerVersion
   #   Metadata:
   #     BuildMethod: makefile
+  #     BuildArchitecture: x86_64
   #   Properties:
   #     ContentUri: ./
-  #     BuildArchitecture: x86_64
   #     CompatibleArchitectures:
   #       - x86_64
   #     CompatibleRuntimes:
