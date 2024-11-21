@@ -11,7 +11,8 @@ name: release-please
 
 jobs:
   release-please:
-    runs-on: ubuntu-latest
+    runs-on:
+      - codebuild-gha-runners-arm64-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: googleapis/release-please-action@v4
         with:
@@ -28,14 +29,19 @@ jobs:
           role-to-assume: ${{ secrets.SAR_DEPLOYMENT_IAM_ROLE }}
           role-session-name: github-action-sar-deploy-session
           aws-region: ${{ env.AWS_REGION }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Cache SAM  outputs
         if: ${{ steps.release.outputs.release_created }}
+        uses: actions/cache@v3
         with:
-          platforms: arm64
+          key: ${{ runner.os }}-sam
+          path: |
+            ~/.aws-sam/cache
+      - name: SAM build
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          sam build --cached
       - name: SAR publish
         if: ${{ steps.release.outputs.release_created }}
         run: |
-          sam build
           sam package --output-template-file packaged.yaml --s3-bucket ${SAR_BUCKET_NAME}
           sam publish --template packaged.yaml --region ${AWS_REGION}
