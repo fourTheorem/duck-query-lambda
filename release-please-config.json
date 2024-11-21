@@ -9,9 +9,8 @@
       "prerelease": false,
       "extra-files": [
         {
-          "type": "yaml",
-          "path": "template.yaml",
-          "jsonpath": "$.Metadata.AWS::ServerlessRepo::Application.SemanticVersion"
+          "type": "generic",
+          "path": "template.yaml"
         }
       ]
     }
