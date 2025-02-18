@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.8](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.7...v0.0.8) (2025-02-18)
+
+
+### Miscellaneous Chores
+
+* release 0.0.8 ([8e67e3d](https://github.com/fourTheorem/duck-query-lambda/commit/8e67e3d859a0e0e51634a38cfa7273f736d716cc))
+
 ## [0.0.7](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.6...v0.0.7) (2024-11-21)
 
 
