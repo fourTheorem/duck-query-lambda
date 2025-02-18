@@ -31,7 +31,7 @@ The Lambda Layer for this DuckDB runtime is available in the AWS Serverless Appl
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:949339270388:applications/duck-query-lambda
-        SemanticVersion: 0.0.7   # x-release-please-version
+        SemanticVersion: 0.0.8   # x-release-please-version
 ```  
 
 - Install using the AWS CDK:
@@ -42,7 +42,7 @@ import * as sam from "aws-cdk-lib/aws-sam";
   new sam.CfnApplication(this, "DuckQueryRuntimeLayer", {
     location: {
       applicationId: "arn:aws:serverlessrepo:eu-west-1:949339270388:applications/duck-query-lambda",
-      semanticVersion: "0.0.7",   // x-release-please-version
+      semanticVersion: "0.0.8",   // x-release-please-version
     },
   });
 ```
