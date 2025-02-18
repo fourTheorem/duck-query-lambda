@@ -11,6 +11,10 @@
         {
           "type": "generic",
           "path": "template.yaml"
+        },
+        {
+          "type": "generic",
+          "path": "README.md"
         }
       ]
     }
