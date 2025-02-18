@@ -9,14 +9,50 @@ This layer allows you to run DuckDB queries without writing any code or deployin
 
 ## Current status
 - 🧪 Experimental
-- 📑 Limited documentation
-- 💃 Working under tests to date
+- 📱 Arm64 only
 
 ## Features
 
 - **Custom Runtime**: Provides a custom runtime for AWS Lambda to execute DuckDB queries.
 - **Data Transformation**: Perform complex data transformations using SQL queries.
 - **Integration with Step Functions**: Easily integrate with AWS Step Functions for orchestrating data workflows.
+
+## Getting Started
+
+### Adding the Lambda Layer to your AWS account
+
+The Lambda Layer for this DuckDB runtime is available in the AWS Serverless Application Repository. You can deploy it directly from the AWS Management Console or using the AWS CLI.
+
+- Install from the AWS Console: https://serverlessrepo.aws.amazon.com/applications/eu-west-1/949339270388/duck-query-lambda
+- Install using AWS SAM or CloudFormation:
+```yaml
+  duckquerylambda:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:949339270388:applications/duck-query-lambda
+        SemanticVersion: 0.0.7   # x-release-please-version
+```  
+
+- Install using the AWS CDK:
+```typescript
+import * as sam from "aws-cdk-lib/aws-sam";
+...
+
+  new sam.CfnApplication(this, "DuckQueryRuntimeLayer", {
+    location: {
+      applicationId: "arn:aws:serverlessrepo:eu-west-1:949339270388:applications/duck-query-lambda",
+      semanticVersion: "0.0.7",   // x-release-please-version
+    },
+  });
+```
+
+An example SAM project can be found in the [`examples/`](./examples/) directory.
+
+### Creating a Lambda function using the DuckDB runtime
+
+You don't need to write any code to use the DuckDB runtime. You can create a Lambda function that uses the runtime, give it some IAM permissions and then invoke it with a query.
+
 
 ## Usage
 
@@ -71,8 +107,9 @@ This layer allows you to run DuckDB queries without writing any code or deployin
     }
     ```
 
-### Example
+## Examples
 
+### Using the Lambda Layer in an AWS Step Function
 Here is an example of how to use the Lambda Layer in an AWS Step Function:
 
 ```json
@@ -89,3 +126,17 @@ Here is an example of how to use the Lambda Layer in an AWS Step Function:
     }
   }
 }
+```
+
+### Invoking the Lambda Function and getting the query results back synchronously
+
+By default, the Lambda function will not return the query results. This is because it's not trivial to convert all results back to JSON in a way that every user expects. If you do want to get the results back synchronously, you can write them to a temporary file in the Lambda and the function will then return the contents of that file, base64 encoded.
+
+Here is an example of how to do this:
+
+```json
+{
+  "query": "COPY (SELECT * FROM 'https://github.com/Teradata/kylo/raw/refs/heads/master/samples/sample-data/parquet/userdata1.parquet' LIMIT 10) TO '/tmp/output.json'",
+  "outputFile": "/tmp/output.json"
+}
+```

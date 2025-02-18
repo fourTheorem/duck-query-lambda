@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  duck-query
+
+  Lambda function for querying DuckDB with the DuckDB custom runtime
+
+Globals:
+  Function:
+    Timeout: 60
+
+Resources:
+  DuckQueryRuntimeLayer:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:949339270388:applications/duck-query-lambda
+        SemanticVersion: 0.0.7
+
+  DuckQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: provided.al2023
+      Handler: bootstrap
+      Layers:
+        - !GetAtt DuckQueryRuntimeLayer.Outputs.DuckQueryLayerVersionArn
+      Architectures:
+        - arm64
+
+
+Outputs:
+  DuckQueryFunctionArn:
+    Description: ARN for the DuckQueryFunction
+    Value: !GetAtt DuckQueryFunction.Arn
+    Export:
+      Name: !Sub 'DuckQueryFunctionArn-${AWS::StackName}'
