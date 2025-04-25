@@ -1,7 +1,7 @@
 PROJECT_NAME = duck-query-lambda
 OUTPUT_DIR = output
 EXTENSIONS = httpfs
-DUCKDB_VERSION = 1.1.3
+DUCKDB_VERSION = 1.2.2
 
 .PHONY: docker_build binary build-bootstrap build-DuckFunction build-DuckFunctionArm
 

@@ -27,7 +27,7 @@ Resources:
       CompatibleArchitectures:
         - arm64
       CompatibleRuntimes:
-        - provided
+        - provided.al2023
       LicenseInfo: Apache-2.0
       RetentionPolicy: Retain
 

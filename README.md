@@ -130,13 +130,14 @@ Here is an example of how to use the Lambda Layer in an AWS Step Function:
 
 ### Invoking the Lambda Function and getting the query results back synchronously
 
-By default, the Lambda function will not return the query results. This is because it's not trivial to convert all results back to JSON in a way that every user expects. If you do want to get the results back synchronously, you can write them to a temporary file in the Lambda and the function will then return the contents of that file, base64 encoded.
+By default, the Lambda function will not return the query results. This is because it's not trivial to convert all results back to JSON in a way that every user expects. If you do want to get the results back synchronously, you can write them to a temporary file in the Lambda and the function will then return the contents of that file. This data is base64 encoded by default, but you can also return the raw JSON from the output file using the `outputFormat` parameter.
 
 Here is an example of how to do this:
 
 ```json
 {
   "query": "COPY (SELECT * FROM 'https://github.com/Teradata/kylo/raw/refs/heads/master/samples/sample-data/parquet/userdata1.parquet' LIMIT 10) TO '/tmp/output.json'",
-  "outputFile": "/tmp/output.json"
+  "outputFile": "/tmp/output.json",
+  "outputFormat": "json"
 }
 ```
