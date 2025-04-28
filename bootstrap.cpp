@@ -75,12 +75,28 @@ static invocation_response query_handler(invocation_request const &req, Connecti
     // property, it will be base64 encoded and returned as the result. This temporary file is also deleted before
     // the function completes.
     auto outputFile = view.GetString("outputFile");
+    if (view.KeyExists("outputFormat"))
+    {
+      auto outputFormat = view.GetString("outputFormat");
+      if (outputFormat == "json")
+      {
+        // Read file as JSON string
+        ifstream fileStream(outputFile);
+        if (!fileStream)
+        {
+          throw std::runtime_error("Failed to open file");
+        }
+        std::string jsonString((std::istreambuf_iterator<char>(fileStream)), std::istreambuf_iterator<char>());
+        fileStream.close();
+        remove(outputFile.c_str());
+        return invocation_response::success(jsonString, "application/json");
+      }
+    }
+    // Vanilla base64 encoded response
     auto encodedOutput = b64encode(outputFile);
     // Delete the file after encoding
     remove(outputFile.c_str());
-
-    return invocation_response::success(encodedOutput,
-                                        "application/base64");
+    return invocation_response::success(encodedOutput, "application/base64");
   }
 
   return invocation_response::success(result->ToString(), "text/plain");

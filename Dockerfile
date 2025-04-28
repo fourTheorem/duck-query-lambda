@@ -1,6 +1,7 @@
 ARG TARGETPLATFORM
 ARG TARGETARCH
-FROM public.ecr.aws/sam/build-provided.al2023:latest
+# Ensuring GLIBCXX_3.4.29 as available in Lambda provided.al2023
+FROM public.ecr.aws/sam/build-provided.al2023:1.132
 
 RUN mkdir src
 WORKDIR /src
