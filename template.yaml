@@ -10,7 +10,7 @@ Metadata:
     ReadmeUrl: README.md
     Labels: ['layer','lambda','runtime','duckdb']
     HomePageUrl: https://github.com/fourTheorem/duck-query-lambda
-    SemanticVersion: 0.0.8  # x-release-please-version
+    SemanticVersion: 0.1.0  # x-release-please-version
     SourceCodeUrl: https://github.com/fourTheorem/duck-query-lambda
 
 Transform: AWS::Serverless-2016-10-31
