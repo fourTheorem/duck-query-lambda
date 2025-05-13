@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/fourTheorem/duck-query-lambda/compare/v0.1.0...v0.1.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* **temp_directory:** set temp_directory to /tmp ([#22](https://github.com/fourTheorem/duck-query-lambda/issues/22)) ([7afddec](https://github.com/fourTheorem/duck-query-lambda/commit/7afddec184cb24213e722419cd55ddbb418719f7))
+
 ## [0.1.0](https://github.com/fourTheorem/duck-query-lambda/compare/v0.0.8...v0.1.0) (2025-04-28)
 
 
